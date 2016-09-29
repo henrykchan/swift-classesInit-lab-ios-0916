@@ -18,7 +18,29 @@ import Foundation
  */
 // write your code here
 
-
+class Person {
+    
+    var firstName:String
+    var lastName:String
+    var fullName:String {
+        
+        return ("\(firstName) \(lastName)")
+    }
+    
+    
+    init (firstName:String, lastName:String) {
+        
+        self.firstName = firstName
+        self.lastName = lastName
+    }
+    
+    
+    func greet (_ person:Person) -> String {
+        
+        return "Hello, \(person.firstName)!"
+        
+    }
+}
 
 
 
@@ -53,11 +75,6 @@ assert(person.fullName == "Alice Johnson", person.fullName)
  */
 
 
-
-
-
-
-
 // Test
 let friend = Person(firstName: "Phil", lastName: "Davies")
 var greeting = person.greet(friend)
@@ -83,6 +100,34 @@ extension Double {
 
 // write your code here
 
+class Transaction {
+    
+    var type:String
+    var amount:Double
+    var description:String {
+        
+        var inOrOut = type
+       
+        if inOrOut == "in" {
+            inOrOut = "credit"
+        }
+        else if inOrOut == "out" {
+            inOrOut = "debit"
+        }
+        
+        
+        
+        return "Transaction: \(inOrOut) in the amount of $\(amount.toMoney)"
+    }
+    
+    
+    init (type:String, amount:Double) {
+        
+        self.type = type
+        self.amount = amount
+    }
+    
+}
 
 
 
@@ -134,9 +179,53 @@ assert(transaction2.description == "Transaction: debit in the amount of $1.20", 
  */
 // write your code here
 
+class BankAccount {
+    
+    var owner:Person
+    var transactions:[Transaction]
+    var balance:Double {
+        
+        var balance = 0.0
+        
+        for money in transactions {
+            
+            if money.type == "in" {
+                
+            balance += money.amount
+        }
+            else {
+                balance -= money.amount
+            }
+        
+        }
+        return balance
+    }
+    
+    init (owner:Person) {
+        
+        self.owner = owner
+        self.transactions = []
+    }
+    
+    
+    func deposit (_ amount: Double) {
+        
+        let theDeposit = Transaction(type:"in", amount: amount)
+        
+        transactions.append(theDeposit)
+    }
+    
+    func withdraw (_ amount: Double) {
+        
+        
+        let theWithdraw = Transaction(type: "out", amount: amount)
+        
+        transactions.append(theWithdraw)
+        
+    }
 
 
-
+}
 
 
 
@@ -166,9 +255,9 @@ assert(personBankAccount.transactions.isEmpty)
 
 
 // Test
-personBankAccount.deposit(100.0)
+personBankAccount.deposit(100)
 assert(personBankAccount.transactions.count == 1, "\(personBankAccount.transactions.count)")
-personBankAccount.deposit(10.0)
+personBankAccount.deposit(10)
 assert(personBankAccount.transactions.count == 2, "\(personBankAccount.transactions.count)")
 
 /*: section8
